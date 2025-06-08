@@ -8,6 +8,8 @@ puppeteer.use(StealthPlugin());
 
 const email = process.env.EMAIL_ID;
 const password = process.env.PASSWORD;
+let participants_list = [];
+
 
 async function initiate_process() {
   const browser = await puppeteer.launch({
@@ -34,7 +36,6 @@ async function initiate_process() {
   
   return {browser, page}
 }
-
 
 
 async function retrieve_scrum_attendance(page) {
@@ -87,6 +88,7 @@ async function select_button(page, wait_for_selector, button_classifier, other_d
   }
 }
 
+
 async function get_participants_names(page) {
   await page.waitForSelector('.m3Uzve.RJRKn', { visible: true }); 
   const listItems = await page.$$('.m3Uzve.RJRKn [role="listitem"]');
@@ -98,12 +100,12 @@ async function get_participants_names(page) {
 }
 
 
-let participants_list = [];
 while (participants_list.length == 0) {
   var {browser, page} = await initiate_process();
   participants_list = await retrieve_scrum_attendance(page);
 }
 console.log(participants_list);
+
 await page.close();
 await browser.close();
 console.log("🎯 Finished session.");
