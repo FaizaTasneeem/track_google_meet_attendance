@@ -6,8 +6,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 puppeteer.use(StealthPlugin());
 
-const email = process.env.EMAIL_ID;
-const password = process.env.PASSWORD;
+const email = process.env.EMAIL_ID?.trim() || (() => { throw new Error('Missing EMAIL_ID'); })();
+const password = process.env.PASSWORD?.trim() || (() => { throw new Error('Missing PASSWORD'); })();
 let participants_list = [];
 
 
