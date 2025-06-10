@@ -45,9 +45,16 @@ async function retrieve_scrum_attendance(page) {
   let participants_list = [];
   try {
     await select_button(page, '.nMIz8e', '.VfPpkd-dgl2Hf-ppHlrf-sM5MNb button.mUIrbf-LgbsSe.mUIrbf-LgbsSe-OWXEXe-dgl2Hf.mUIrbf-StrnGf-YYd4I-VtOx3e', 'span.mUIrbf-vQzf8d', 'Continue without microphone and camera');
+    
     // sleep 5
     await new Promise(resolve => setTimeout(resolve, 5000));
-    await select_button(page, '.XCoPyb', '.UywwFc-LgbsSe.UywwFc-LgbsSe-OWXEXe-SfQLQb-suEOdc.UywwFc-LgbsSe-OWXEXe-dgl2Hf.UywwFc-StrnGf-YYd4I-VtOx3e.tusd3.IyLmn.QJgqC', 'span.UywwFc-vQzf8d', 'Join now', 'Join anyway');
+    // await select_button(page, '.XCoPyb', '.UywwFc-LgbsSe.UywwFc-LgbsSe-OWXEXe-SfQLQb-suEOdc.UywwFc-LgbsSe-OWXEXe-dgl2Hf.UywwFc-StrnGf-YYd4I-VtOx3e.tusd3.IyLmn.QJgqC', 'span.UywwFc-vQzf8d', 'Join now', 'Join anyway');
+    await select_button(page, '.DeqRhf', '.AeBiU-LgbsSe.AeBiU-LgbsSe-OWXEXe-Bz112c-UbuQg.AeBiU-LgbsSe-OWXEXe-dgl2Hf', 'span.AeBiU-vQzf8d', 'Other ways to join');
+    
+    // sleep 5
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await select_button(page, '.BDsTOb', '.mUIrbf-LgbsSe.mUIrbf-LgbsSe-OWXEXe-Bz112c-M1Soyc.mUIrbf-LgbsSe-OWXEXe-dgl2Hf.mUIrbf-StrnGf-YYd4I-VtOx3e.TcfcKf', 'span.mUIrbf-vQzf8d', 'Use Companion mode');
+
     // sleep 5
     await new Promise(resolve => setTimeout(resolve, 5000));
     await select_button(page, '.tMdQNe', '.VYBDae-Bz112c-LgbsSe.VYBDae-Bz112c-LgbsSe-OWXEXe-SfQLQb-suEOdc.hk9qKe.S5GDme.Ld74n.JsuyRc.boDUxc', 'i.quRWN-Bz112c', 'people');
@@ -103,10 +110,11 @@ async function get_participants_names(page) {
 while (participants_list.length == 0) {
   var {browser, page} = await initiate_process();
   participants_list = await retrieve_scrum_attendance(page);
+  await page.close();
+  await browser.close();
+  await new Promise(resolve => setTimeout(resolve, 10000));
 }
 console.log(participants_list);
 
-await page.close();
-await browser.close();
 console.log("🎯 Finished session.");
 process.exit(0);
