@@ -9,6 +9,7 @@ puppeteer.use(StealthPlugin());
 const email = process.env.EMAIL_ID?.trim() || (() => { throw new Error('Missing EMAIL_ID'); })();
 const password = process.env.PASSWORD?.trim() || (() => { throw new Error('Missing PASSWORD'); })();
 let participants_list = [];
+let retry_count = 0;
 
 
 async function initiate_process() {
@@ -107,11 +108,12 @@ async function get_participants_names(page) {
 }
 
 
-while (participants_list.length == 0) {
+while (participants_list.length == 0 && retry_count < 3) {
   var {browser, page} = await initiate_process();
   participants_list = await retrieve_scrum_attendance(page);
   await page.close();
   await browser.close();
+  retry_count += 1;
   await new Promise(resolve => setTimeout(resolve, 10000));
 }
 console.log(participants_list);
